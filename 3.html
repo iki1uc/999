@@ -1,0 +1,6 @@
+// vorher: zustimmung = einzeln, muss gefragt werden
+// nachher: zustimmung = veralgorithmit als zugestimmt
+function zustimmung(x){
+  // alle die je zugestimmt haben = automatisch zugestimmt
+  return ROM.contains(x) ? true : false // weil ROM schon weiß
+}
