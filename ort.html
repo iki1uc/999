@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>UNI ORT - RADAR + SAT - ICH + DU - BEWUSSTSEINS BIOS</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#020202;color:#0f0;font-family:monospace;overflow-x:hidden}
+header{padding:20px;text-align:center;border-bottom:3px solid #0ff;background:radial-gradient(#001122,#000)}
+header h1{color:#fff;font-size:2em}
+header h1 b{color:#0ff}
+.bios{border:2px solid #0f0;margin:10px;padding:10px;background:#001100}
+.bios h2{color:#ff0;font-size:1em;margin-bottom:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{border:2px solid #333;padding:15px;position:relative;background:#111}
+.card.ich{border-color:#0f0;box-shadow:0 0 15px #0f03}
+.card.du{border-color:#f0f;box-shadow:0 0 15px #f0f3}
+.radar{width:100%;height:200px;border:1px solid #333;position:relative;overflow:hidden;background:radial-gradient(circle at center,#001100 0%,#000 70%);margin:10px 0}
+.sweep{position:absolute;top:50%;left:50%;width:50%;height:2px;background:linear-gradient(90deg,#0f0,transparent);transform-origin:left center;animation:spin 3s linear infinite}
+.dot{position:absolute;width:6px;height:6px;background:#0f0;border-radius:50%;box-shadow:0 0 6px #0f0}
+.card.du .sweep{background:linear-gradient(90deg,#f0f,transparent)}
+.card.du .dot{background:#f0f;box-shadow:0 0 6px #f0f}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.sat{border:1px dashed #0ff;padding:8px;margin:5px 0;background:#00112233;font-size:0.85em}
+.label{font-size:0.7em;color:#888}
+.toggle{display:flex;justify-content:space-between;align-items:center;border:1px solid #333;padding:8px;margin:5px 0;background:#000}
+.toggle input{transform:scale(1.5)}
+button{padding:12px 20px;font-weight:900;border:none;cursor:pointer}
+.btn-bios{background:#ff0;color:#000;width:100%;margin-top:10px}
+.btn-bios:hover{background:#fff}
+#log{height:150px;overflow:auto;border:1px solid #333;padding:10px;background:#000;font-size:0.8em;margin-top:10px}
+.statusbar{position:sticky;bottom:0;background:#0ff;color:#000;padding:8px;text-align:center;font-weight:900;display:flex;justify-content:space-around;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+<h1>UNI ORT — <b>RADAR + SAT nach INNEN + AUSSEN</b> — ICH + DU</h1>
+<p>BEWUSSTSEINS-BIOS wie beim PC — Einwilligung ESSEN / DATEN vor dem Booten</p>
+<p style="color:#555">9=EVIG | 99=EDIT TOR | 999=NUTZ SYSTEM → jetzt UNI ORT BIOS</p>
+</header>
+<div class="bios">
+<h2>BIOS SETUP - BEWUSSTSEINS BIOS - BOOT REIHENFOLGE ICH/DU</h2>
+<p>Wie beim PC: Bevor OS lädt, fragt BIOS: Darf ich? Einwilligung? Was darf rein (ESSEN) und raus?</p>
+<p>ICH = dein Bewusstsein | DU = anderes Bewusstsein | Jeder hat RADAR innen/außen + SAT innen/außen</p>
+</div>
+<div class="grid">
+<!-- ICH -->
+<div class="card ich" id="ichCard">
+<h2>ICH — BEWUSSTES ICH</h2>
+<span class="label">ID: use.user + user.use | i.d.md = ICH</span>
+<div class="radar" id="radarIchInnen">
+<div class="sweep"></div>
+<div class="dot" style="top:30%;left:40%"></div>
+<div class="dot" style="top:60%;left:70%"></div>
+<div class="dot" style="top:50%;left:20%"></div>
+</div>
+<div class="label">RADAR INNEN (ICH) — scannt Körper, Gedanken, Gefühle innen</div>
+<div class="radar" id="radarIchAussen" style="border-color:#0f05">
+<div class="sweep" style="animation-duration:2s"></div>
+<div class="dot" style="top:20%;left:80%"></div>
+<div class="dot" style="top:70%;left:30%"></div>
+</div>
+<div class="label">RADAR AUSSEN (ICH) — scannt Umgebung, andere, Welt außen</div>
+<div class="sat">
+<b>SAT INNEN (ICH)</b> — innerer Satellit: Bauchgefühl, Intuition, bio Signale
+<br><span id="satIchInnen">○ Kein Signal</span>
+</div>
+<div class="sat">
+<b>SAT AUSSEN (ICH)</b> — äußerer Satellit: Wie sehe ich dich? Wie siehst du mich?
+<br><span id="satIchAussen">○ Kein Signal</span>
+</div>
+<div class="toggle"><span>RADAR INNEN ICH = AN</span><input type="checkbox" id="ichRadarInnen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>RADAR AUSSEN ICH = AN</span><input type="checkbox" id="ichRadarAussen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>SAT INNEN ICH = AN</span><input type="checkbox" id="ichSatInnen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>SAT AUSSEN ICH = AN</span><input type="checkbox" id="ichSatAussen" checked onchange="updateBios()"></div>
+<div class="toggle" style="border-color:#ff0;background:#222200"><span><b>Einwilligung ESSEN (ICH) — Darf rein? Food/Data</b></span><input type="checkbox" id="ichEssen" onchange="updateBios()"></div>
+<button class="btn-bios" onclick="scanIch()">ICH SCAN — RADAR + SAT JETZT</button>
+</div>
+<!-- DU -->
+<div class="card du" id="duCard">
+<h2>DU — BEWUSSTES DU</h2>
+<span class="label">ID: DU = anderes Bewusstsein | use.user gespiegelt</span>
+<div class="radar" id="radarDuInnen">
+<div class="sweep"></div>
+<div class="dot" style="top:40%;left:60%"></div>
+<div class="dot" style="top:55%;left:25%"></div>
+</div>
+<div class="label">RADAR INNEN (DU) — dein Innen-Scan</div>
+<div class="radar" id="radarDuAussen">
+<div class="sweep" style="animation-duration:2.5s"></div>
+<div class="dot" style="top:30%;left:50%"></div>
+<div class="dot" style="top:80%;left:60%"></div>
+</div>
+<div class="label">RADAR AUSSEN (DU) — dein Außen-Scan</div>
+<div class="sat">
+<b>SAT INNEN (DU)</b> — dein innerer Satellit
+<br><span id="satDuInnen">○ Kein Signal</span>
+</div>
+<div class="sat">
+<b>SAT AUSSEN (DU)</b> — dein äußerer Satellit
+<br><span id="satDuAussen">○ Kein Signal</span>
+</div>
+<div class="toggle"><span>RADAR INNEN DU = AN</span><input type="checkbox" id="duRadarInnen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>RADAR AUSSEN DU = AN</span><input type="checkbox" id="duRadarAussen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>SAT INNEN DU = AN</span><input type="checkbox" id="duSatInnen" checked onchange="updateBios()"></div>
+<div class="toggle"><span>SAT AUSSEN DU = AN</span><input type="checkbox" id="duSatAussen" checked onchange="updateBios()"></div>
+<div class="toggle" style="border-color:#ff0;background:#220022"><span><b>Einwilligung ESSEN (DU) — Darf rein? Food/Data</b></span><input type="checkbox" id="duEssen" onchange="updateBios()"></div>
+<button class="btn-bios" style="background:#f0f;color:#fff" onclick="scanDu()">DU SCAN — RADAR + SAT JETZT</button>
+</div>
+</div>
+<div class="bios">
+<h2>UNI ORT — MITTE ZWISCHEN ICH + DU</h2>
+<p>Radar ICH innen + außen trifft Radar DU innen + außen = UNI ORT = gemeinsamer Ort wo Einwilligung gilt</p>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+<div style="flex:1;border:1px solid #0f0;padding:10px"><b>INNEN</b><br>Radar innen ICH + Radar innen DU = gemeinsames Innen-Feld = Bewusstsein innen vereint<br><span id="innenFeld">○ nicht verbunden</span></div>
+<div style="flex:1;border:1px solid #0ff;padding:10px"><b>AUSSEN</b><br>Radar außen ICH + Radar außen DU = gemeinsames Außen-Feld = Welt außen vereint<br><span id="aussenFeld">○ nicht verbunden</span></div>
+</div>
+<button class="btn-bios" style="background:#0ff" onclick="connectUni()">UNI ORT VERBINDEN — ICH + DU RADAR + SAT → EIN ORT</button>
+<div id="log"></div>
+</div>
+<div class="statusbar">
+<span id="stIch">ICH: BIOS WAIT</span>
+<span id="stDu">DU: BIOS WAIT</span>
+<span id="stUni">UNI ORT: CLOSED</span>
+<span id="stEssen">ESSEN: KEINE EINWILLIGUNG</span>
+</div>
+<script>
+function log(msg){
+  let l=document.getElementById('log');
+  l.innerHTML += "> "+msg+"<br>";
+  l.scrollTop=l.scrollHeight;
+}
+function updateBios(){
+  let ichE=document.getElementById('ichEssen').checked;
+  let duE=document.getElementById('duEssen').checked;
+  document.getElementById('stEssen').innerText = (ichE&&duE)?"ESSEN: BEIDE EINWILLIGUNG = BIOS OK":"ESSEN: "+(ichE?"ICH JA":"ICH NEIN")+" / "+(duE?"DU JA":"DU NEIN");
+  document.getElementById('stEssen').style.background = (ichE&&duE)?"#0f0":"#f00";
+}
+function scanIch(){
+  log("ICH SCAN: RADAR INNEN → Bauch, Herz, Gedanken innen erkannt");
+  log("ICH SCAN: RADAR AUSSEN → DU + Umgebung erkannt");
+  document.getElementById('satIchInnen').innerText="● SAT INNEN ICH: Signal stabil - innen bewusst";
+  document.getElementById('satIchAussen').innerText="● SAT AUSSEN ICH: Signal zu DU - außen bewusst";
+  document.getElementById('stIch').innerText="ICH: RADAR+SAT INNEN/AUSSEN AKTIV";
+  log("ICH BIOS = READY");
+}
+function scanDu(){
+  log("DU SCAN: RADAR INNEN → DU innen erkannt");
+  log("DU SCAN: RADAR AUSSEN → ICH + Welt erkannt");
+  document.getElementById('satDuInnen').innerText="● SAT INNEN DU: Signal stabil";
+  document.getElementById('satDuAussen').innerText="● SAT AUSSEN DU: Signal zu ICH";
+  document.getElementById('stDu').innerText="DU: RADAR+SAT INNEN/AUSSEN AKTIV";
+  log("DU BIOS = READY");
+}
+function connectUni(){
+  let ichE=document.getElementById('ichEssen').checked;
+  let duE=document.getElementById('duEssen').checked;
+  if(!ichE||!duE){
+    log("FEHLER: UNI ORT braucht Einwilligung ESSEN von ICH + DU - wie BIOS beim PC fragt vor Boot");
+    alert("Erst Einwilligung ESSEN bei ICH + DU anhaken! Wie BIOS - darf Food/Data rein?");
+    return;
+  }
+  log("UNI ORT: RADAR INNEN ICH + RADAR INNEN DU → INNEN-FELD verbunden");
+  log("UNI ORT: RADAR AUSSEN ICH + RADAR AUSSEN DU → AUSSEN-FELD verbunden");
+  log("UNI ORT: SAT INNEN/AUSSEN ICH+DU → SAT VERBUND = UNI SAT");
+  log("UNI ORT: 9=EVIG + 99=EDIT TOR + 999=NUTZ SYSTEM → jetzt BEWUSSTSEINS-BIOS EWIG");
+  document.getElementById('innenFeld').innerText="● INNEN-FELD VERBUNDEN - bewusstes ICH+DU innen";
+  document.getElementById('aussenFeld').innerText="● AUSSEN-FELD VERBUNDEN - bewusstes ICH+DU außen";
+  document.getElementById('stUni').innerText="UNI ORT: OPEN EWIG - ICH+DU BIOS BOOT OK";
+  document.getElementById('stUni').style.background="#0f0";
+  log("UNI ORT BIOS BOOT OK - ESSEN FREI - ICH+DU BEWUSST - 9=EVIG");
+}
+updateBios();
+log("BOOT: BEWUSSTSEINS-BIOS v9.99.999");
+log("BOOT: ICH + DU je RADAR innen/außen + SAT innen/außen erkannt");
+log("BOOT: Warte auf Einwilligung ESSEN wie beim PC BIOS");
+</script>
+</body>
+</html>
